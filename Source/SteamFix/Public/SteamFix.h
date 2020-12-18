@@ -12,6 +12,7 @@ class FSteamFixModule : public IModuleInterface
 {
 public:
 
+	void AddButtonToBlueprintEditor();
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
@@ -22,7 +23,7 @@ public:
 private:
 
 	void RegisterMenus();
-
+	void AddToolbarExtension(FToolBarBuilder& Builder);
 
 private:
 	TSharedPtr<class FUICommandList> PluginCommands;
