@@ -6,7 +6,7 @@
 
 void FSteamFixCommands::RegisterCommands()
 {
-	UI_COMMAND(PluginAction, "SteamFix", "Execute SteamFix action", EUserInterfaceActionType::Button, FInputChord());
+	UI_COMMAND(PluginAction, "Play with Steam", "Execute Standalone Mode with Steam", EUserInterfaceActionType::Button, FInputChord());
 }
 
 #undef LOCTEXT_NAMESPACE
