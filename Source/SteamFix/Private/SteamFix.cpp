@@ -8,6 +8,8 @@
 #include "Misc/MessageDialog.h"
 #include "ToolMenus.h"
 
+DEFINE_LOG_CATEGORY(LogSteamFix);
+
 static const FName SteamFixTabName("SteamFix");
 
 #define LOCTEXT_NAMESPACE "FSteamFixModule"
@@ -72,15 +74,29 @@ void FSteamFixModule::SteamButtonClicked()
 	const auto CmdPath = FString("C:\\Windows\\System32\\cmd.exe");
 	const auto CmdParams = GetCmdParams(UE4EditorExe, ProjectFile);
 
-	auto StdOut = FString();
-	auto StdErr = FString();
+	const auto bLaunchDetached = true;
+	const auto bLaunchHidden = false;
+	const auto bLaunchReallyHidden = false;
 
-	int32 ReturnCode = -1;
+	auto OutProcessID = new uint32(-1);
+	const auto PriorityModifier = 0;
+	
+	const auto OptionalWorkingDirectory = nullptr;
+	const auto PipeWriteChild = nullptr;
 
-	// TODO Add creating process instead of using engine process
-	FPlatformProcess::ExecProcess(*CmdPath, *CmdParams, &ReturnCode, &StdOut, &StdErr);
+	auto ProcHandle = FPlatformProcess::CreateProc(
+		*CmdPath,
+		*CmdParams,
+		bLaunchDetached,
+		bLaunchHidden,
+		bLaunchReallyHidden,
+		OutProcessID,
+		PriorityModifier,
+		OptionalWorkingDirectory,
+		PipeWriteChild
+	);
 
-	UE_LOG(LogTemp, Log, TEXT("Exit code: %d\nStdOut: %s,\nStdErr: %s"), ReturnCode, *StdOut, *StdErr);
+	UE_LOG(LogSteamFix, Log, TEXT("Cmd path: %s\n\tProject path: %s\n\tProcessID: %d"), *CmdPath, *ProjectFile, *OutProcessID);
 }
 
 FString FSteamFixModule::GetEditorExe(IFileManager& FileManager)
@@ -95,8 +111,8 @@ FString FSteamFixModule::GetEditorExe(IFileManager& FileManager)
 
 FString FSteamFixModule::GetProjectFile(IFileManager& FileManager)
 {
-	auto ProjectDir = FPaths::ProjectDir();
-	auto Filter = FString(ProjectDir).Append(TEXT("*.uproject"));
+	const auto ProjectDir = FPaths::ProjectDir();
+	const auto Filter = FString(ProjectDir).Append(TEXT("*.uproject"));
 	auto FileNames = TArray<FString>();
 	FileManager.FindFiles(FileNames, *Filter, true, false);
 
