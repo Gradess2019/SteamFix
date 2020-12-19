@@ -11,3 +11,8 @@ SteamFix for Standalone Mode in UE 4.25
 
 To launch standalone mode with Steam press on Steam button in level/blueprint editor toolbar 
 <a href="https://ibb.co/YLbxFMY"><img src="https://i.ibb.co/yQVrc1G/image.png" alt="image" border="0"></a>
+
+
+
+
+<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
