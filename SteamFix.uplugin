@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "SteamFix",
+	"Description": "Steam is broken in Standalone Mode in UE 4.25. So, this plugin lets you play Standalone Mode with Steam",
+	"Category": "Editor",
+	"CreatedBy": "Gradess",
+	"CreatedByURL": "stepantrofimov.com",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": true,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "SteamFix",
+			"Type": "Editor",
+			"LoadingPhase": "PostEngineInit"
+		}
+	]
+}
