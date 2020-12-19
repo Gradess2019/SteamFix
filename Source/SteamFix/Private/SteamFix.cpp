@@ -125,11 +125,13 @@ FString FSteamFixModule::GetProjectFile(IFileManager& FileManager)
 
 FString FSteamFixModule::GetCmdParams(const FString UE4EditorExe, const FString ProjectFile)
 {
+	const auto MapName = GEditor->GetEditorWorldContext().World()->GetMapName();
 	auto Args = FStringFormatOrderedArguments();
 	Args.Add(UE4EditorExe);
 	Args.Add(ProjectFile);
+	Args.Add(MapName);
 
-	return FString::Format(TEXT("cmd /c {0} {1} -game -log"), Args);
+	return FString::Format(TEXT("cmd /c {0} {1} {2} -game -log"), Args);
 }
 
 void FSteamFixModule::RegisterMenus()
