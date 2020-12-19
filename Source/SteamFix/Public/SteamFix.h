@@ -16,15 +16,18 @@ public:
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
-	
+
 	/** This function will be bound to Command. */
-	void PluginButtonClicked();
-	
+	void SteamButtonClicked();
+
 private:
+
+	FString GetEditorExe(IFileManager& FileManager);
+	FString GetProjectFile(IFileManager& FileManager);
+	FString GetCmdParams(FString UE4EditorExe, FString ProjectFile);
 
 	void RegisterMenus();
 	void AddToolbarExtension(FToolBarBuilder& Builder);
 
-private:
 	TSharedPtr<class FUICommandList> PluginCommands;
 };

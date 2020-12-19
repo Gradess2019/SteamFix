@@ -40,8 +40,8 @@ void FSteamFixModule::StartupModule()
 	PluginCommands = MakeShareable(new FUICommandList);
 
 	PluginCommands->MapAction(
-		FSteamFixCommands::Get().PluginAction,
-		FExecuteAction::CreateRaw(this, &FSteamFixModule::PluginButtonClicked),
+		FSteamFixCommands::Get().ButtonAction,
+		FExecuteAction::CreateRaw(this, &FSteamFixModule::SteamButtonClicked),
 		FCanExecuteAction());
 
 	UToolMenus::RegisterStartupCallback(
@@ -64,15 +64,56 @@ void FSteamFixModule::ShutdownModule()
 	FSteamFixCommands::Unregister();
 }
 
-void FSteamFixModule::PluginButtonClicked()
+void FSteamFixModule::SteamButtonClicked()
 {
-	// Put your "OnButtonClicked" stuff here
-	FText DialogText = FText::Format(
-		LOCTEXT("PluginButtonDialogText", "Add code to {0} in {1} to override this button's actions"),
-		FText::FromString(TEXT("FSteamFixModule::PluginButtonClicked()")),
-		FText::FromString(TEXT("SteamFix.cpp"))
-	);
-	FMessageDialog::Open(EAppMsgType::Ok, DialogText);
+	auto& FileManager = IFileManager::Get();
+	const auto UE4EditorExe = GetEditorExe(FileManager);
+	const auto ProjectFile = GetProjectFile(FileManager);
+	const auto CmdPath = FString("C:\\Windows\\System32\\cmd.exe");
+	const auto CmdParams = GetCmdParams(UE4EditorExe, ProjectFile);
+
+	auto StdOut = FString();
+	auto StdErr = FString();
+
+	int32 ReturnCode = -1;
+
+	// TODO Add creating process instead of using engine process
+	FPlatformProcess::ExecProcess(*CmdPath, *CmdParams, &ReturnCode, &StdOut, &StdErr);
+
+	UE_LOG(LogTemp, Log, TEXT("Exit code: %d\nStdOut: %s,\nStdErr: %s"), ReturnCode, *StdOut, *StdErr);
+}
+
+FString FSteamFixModule::GetEditorExe(IFileManager& FileManager)
+{
+	auto EngineDir = FPaths::EngineDir();
+	auto UE4EditorExe = EngineDir.Append(TEXT("Binaries\\Win64\\UE4Editor.exe"));
+	FPaths::NormalizeFilename(UE4EditorExe);;
+	UE4EditorExe = FileManager.ConvertToAbsolutePathForExternalAppForRead(*UE4EditorExe);
+
+	return UE4EditorExe;
+}
+
+FString FSteamFixModule::GetProjectFile(IFileManager& FileManager)
+{
+	auto ProjectDir = FPaths::ProjectDir();
+	auto Filter = FString(ProjectDir).Append(TEXT("*.uproject"));
+	auto FileNames = TArray<FString>();
+	FileManager.FindFiles(FileNames, *Filter, true, false);
+
+	auto ProjectFile = FString(ProjectDir).Append(FileNames[0]);
+	FPaths::NormalizeFilename(ProjectFile);;
+	ProjectFile = FileManager.ConvertToAbsolutePathForExternalAppForRead(*ProjectFile);
+
+	return ProjectFile;
+}
+
+FString FSteamFixModule::GetCmdParams(const FString UE4EditorExe, const FString ProjectFile)
+{
+	auto Args = FStringFormatOrderedArguments();
+	Args.Add(UE4EditorExe);
+	Args.Add(ProjectFile);
+
+	return FString::Format(TEXT("cmd /c {0} {1} -game -log"), Args);
 }
 
 void FSteamFixModule::RegisterMenus()
@@ -86,7 +127,7 @@ void FSteamFixModule::RegisterMenus()
 			FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("Game");
 			{
 				FToolMenuEntry& Entry = Section.AddEntry(
-					FToolMenuEntry::InitToolBarButton(FSteamFixCommands::Get().PluginAction));
+					FToolMenuEntry::InitToolBarButton(FSteamFixCommands::Get().ButtonAction));
 				Entry.SetCommandList(PluginCommands);
 			}
 		}
@@ -95,7 +136,7 @@ void FSteamFixModule::RegisterMenus()
 
 void FSteamFixModule::AddToolbarExtension(FToolBarBuilder& Builder)
 {
-	Builder.AddToolBarButton(FSteamFixCommands::Get().PluginAction);
+	Builder.AddToolBarButton(FSteamFixCommands::Get().ButtonAction);
 }
 
 #undef LOCTEXT_NAMESPACE
