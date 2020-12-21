@@ -3,7 +3,7 @@ SteamFix for Standalone Mode in UE 4.25
 
 <h3>How to install</h3>
 <ol>
-  <li>Download <a href="https://drive.google.com/file/d/135_zxmxvA9-uUbZ2QnCOKv2zwLBk2-wI/view?usp=sharing">build</a></li>
+  <li>Download <a href="https://drive.google.com/file/d/1nOZ1WXenjqSxvre2e04NJJSduyRN7AnW/view?usp=sharing">build</a></li>
   <li>Unpack archive and place SteamFix folder to: [ProjectName]/Plugins</li>
 </ol>
 
@@ -13,6 +13,9 @@ To launch standalone mode with Steam press on Steam button in level/blueprint ed
 <a href="https://ibb.co/YLbxFMY"><img src="https://i.ibb.co/yQVrc1G/image.png" alt="image" border="0"></a>
 
 
-
-
+<h2>1.0.3</h2>
+Fixed crash when whether project or unreal path has spaces
+<br>
+<br>
+<br>
 <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
