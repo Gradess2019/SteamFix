@@ -96,7 +96,15 @@ void FSteamFixModule::SteamButtonClicked()
 		PipeWriteChild
 	);
 
-	UE_LOG(LogSteamFix, Log, TEXT("Cmd path: %s\n\tProject path: %s\n\tProcessID: %d"), *CmdPath, *ProjectFile, *OutProcessID);
+	UE_LOG(
+		LogSteamFix,
+		Log,
+		TEXT("Cmd path: %s\n\tProject path: %s\n\tProcessID: %d\n\tCmd Params: %s"),
+		*CmdPath,
+		*ProjectFile,
+		*OutProcessID,
+		*CmdParams
+	);
 }
 
 FString FSteamFixModule::GetEditorExe(IFileManager& FileManager)
@@ -131,7 +139,7 @@ FString FSteamFixModule::GetCmdParams(const FString UE4EditorExe, const FString 
 	Args.Add(ProjectFile);
 	Args.Add(MapName);
 
-	return FString::Format(TEXT("cmd /c {0} {1} {2} -game -log"), Args);
+	return FString::Format(TEXT("cmd /c \"\"{0}\" \"{1}\"\" {2} -game -log"), Args);
 }
 
 void FSteamFixModule::RegisterMenus()
