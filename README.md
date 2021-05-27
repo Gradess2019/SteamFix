@@ -1,9 +1,13 @@
 # SteamFix
-SteamFix for Standalone Mode in UE 4.25
+SteamFix for Standalone Mode in UE 4.25+
 
 <h3>How to install</h3>
 <ol>
-  <li>Download <a href="https://drive.google.com/file/d/1nOZ1WXenjqSxvre2e04NJJSduyRN7AnW/view?usp=sharing">build</a></li>
+  <li>Download build: 
+    <a href="https://drive.google.com/file/d/1nOZ1WXenjqSxvre2e04NJJSduyRN7AnW/view?usp=sharing">4.25</a>, 
+    <a href="https://drive.google.com/file/d/1LyiFa1zCsmYUJG3FTuaJdyi27EWypOyj/view?usp=sharing">4.26</a>, 
+    5 Early Access (Coming soon)
+  </li>
   <li>Unpack archive and place SteamFix folder to: [ProjectName]/Plugins</li>
 </ol>
 
