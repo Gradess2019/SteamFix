@@ -47,7 +47,7 @@ TSharedRef< FSlateStyleSet > FSteamFixStyle::Create()
 	Style->SetContentRoot(IPluginManager::Get().FindPlugin("SteamFix")->GetBaseDir() / TEXT("Resources"));
 
 	Style->Set("SteamFix.ButtonAction", new IMAGE_BRUSH(TEXT("steam_64"), Icon40x40));
-	Style->Set("SteamFix.ButtonAction.Small", new IMAGE_BRUSH(TEXT("steam_32"), Icon20x20));
+	Style->Set("SteamFix.ButtonAction.Small", new IMAGE_BRUSH(TEXT("steam_64"), Icon40x40));
 
 	return Style;
 }

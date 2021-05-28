@@ -80,7 +80,7 @@ void FSteamFixModule::SteamButtonClicked()
 
 	auto OutProcessID = new uint32(-1);
 	const auto PriorityModifier = 0;
-	
+
 	const auto OptionalWorkingDirectory = nullptr;
 	const auto PipeWriteChild = nullptr;
 
@@ -110,7 +110,7 @@ void FSteamFixModule::SteamButtonClicked()
 FString FSteamFixModule::GetEditorExe(IFileManager& FileManager)
 {
 	auto EngineDir = FPaths::EngineDir();
-	auto UE4EditorExe = EngineDir.Append(TEXT("Binaries\\Win64\\UE4Editor.exe"));
+	auto UE4EditorExe = EngineDir.Append(TEXT("Binaries\\Win64\\UnrealEditor.exe"));
 	FPaths::NormalizeFilename(UE4EditorExe);;
 	UE4EditorExe = FileManager.ConvertToAbsolutePathForExternalAppForRead(*UE4EditorExe);
 
@@ -144,16 +144,16 @@ FString FSteamFixModule::GetCmdParams(const FString UE4EditorExe, const FString 
 
 void FSteamFixModule::RegisterMenus()
 {
-	// Owner will be used for cleanup in call to UToolMenus::UnregisterOwner
 	FToolMenuOwnerScoped OwnerScoped(this);
 
 	{
-		UToolMenu* ToolbarMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.LevelEditorToolBar");
+		UToolMenu* ToolbarMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.LevelEditorToolBar.PlayToolBar");
 		{
-			FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("Game");
+			FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("Play");
 			{
 				FToolMenuEntry& Entry = Section.AddEntry(
-					FToolMenuEntry::InitToolBarButton(FSteamFixCommands::Get().ButtonAction));
+					FToolMenuEntry::InitToolBarButton(FSteamFixCommands::Get().ButtonAction)
+				);
 				Entry.SetCommandList(PluginCommands);
 			}
 		}
